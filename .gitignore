@@ -1,0 +1,5 @@
+pg/
+node_modules/
+.next/
+bun.lockb
+next-env.d.ts
