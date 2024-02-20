@@ -1,4 +1,4 @@
-import "@/app/css/globals.css";
+import "@/css/globals.css";
 
 export default function DefaultLayout({
   children,
