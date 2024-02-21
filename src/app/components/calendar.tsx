@@ -2,7 +2,7 @@
 
 import Navigation from '@/app/components/calendar/navigation'
 
-import { Day } from '@/types/calendar/day'
+import { Day } from '@/app/types/calendar/day'
 import { useEffect, useState } from 'react'
 import { getDays } from '@/app/actions'
 
@@ -14,12 +14,12 @@ export default function Calendar({ initDate }: { initDate: Date }) {
 
     useEffect(() => {
         const updateDays = async () => {
-          const newDays = await getDays(date)
-          setDays(newDays)
+            const newDays = await getDays(date)
+            setDays(newDays)
         }
 
         updateDays()
-      }, [date])
+    }, [date])
 
     return (
         <div className="rounded-lg shadow border-2 w-full bg-white p-4">

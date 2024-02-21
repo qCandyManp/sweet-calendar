@@ -1,6 +1,6 @@
 "use server"
 
-import { Day } from '@/types/calendar/day'
+import { Day } from '@/app/types/calendar/day'
 
 const getFirstDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), 1)
