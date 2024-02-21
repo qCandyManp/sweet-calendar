@@ -45,7 +45,6 @@ const getDayGrid = (date: Date) => {
 }
 
 export async function POST(request: Request) {
-
     const { dateStr } = await request.json() as { dateStr: string }
 
     const date = !dateStr ? new Date() : new Date(dateStr)

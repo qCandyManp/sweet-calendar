@@ -2,10 +2,12 @@ import { Dispatch, SetStateAction } from "react"
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome"
 import * as far from '@fortawesome/free-regular-svg-icons'
 
-export default function Navigation({ date, setDate }: { date: Date, setDate: Dispatch<SetStateAction<Date>> }) {
+export default function Navigation({ date, setDate, refresh }: { date: Date, setDate: Dispatch<SetStateAction<Date>>, refresh: (date: Date) => void }) {
 
     const changeMonth = (value: number) => {
-        setDate(new Date(date.getFullYear(), date.getMonth() + value, 1))
+        let newDate = new Date(date.getFullYear(), date.getMonth() + value, 1)
+        setDate(newDate)
+        refresh(newDate)
     }
 
     return (
