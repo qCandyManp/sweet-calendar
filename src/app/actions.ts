@@ -14,7 +14,7 @@ const getNumberOfDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 }
 
-const getDayGrid = (date: Date) => {
+const getDayGrid = (date: Date): Day[] => {
     const firstDay = getFirstDayOfMonth(date)
     const lastDay = getLastDayOfMonth(date)
     const numberOfDays = getNumberOfDaysInMonth(date)
@@ -44,10 +44,6 @@ const getDayGrid = (date: Date) => {
     return dayGrid
 }
 
-export async function POST(request: Request) {
-    const { dateStr } = await request.json() as { dateStr: string }
-
-    const date = !dateStr ? new Date() : new Date(dateStr)
-
-    return Response.json({ days: getDayGrid(date) })
+export async function getDays(date: Date = new Date()): Promise<Day[]> {
+    return getDayGrid(date)
 }
