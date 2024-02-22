@@ -22,6 +22,7 @@ exports.up = async () => {
     await client.query(`
         CREATE TABLE calendars (
             uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
             owner UUID REFERENCES users(uuid)
         )
     `);
@@ -37,8 +38,8 @@ exports.up = async () => {
 
 exports.down = async () => {
     await client.connect();
-    await client.query('DROP TABLE users');
-    await client.query('DROP TABLE calendars');
     await client.query('DROP TABLE appointments');
+    await client.query('DROP TABLE calendars');
+    await client.query('DROP TABLE users');
     await client.end();
 };
