@@ -39,3 +39,18 @@ export async function createCalendar(user: User, title: string): Promise<Calenda
 
     return result.rows[0] as Calendar
 }
+
+export async function deleteCalendar(user: User, uuid: string): Promise<Calendar[]> {
+    const client = getPGClient()
+
+    try {
+        await client.connect()
+    } catch (e) {
+        console.error(e)
+    }
+
+    await client.query('DELETE from calendars WHERE uuid=$1', [uuid])
+    const result = await client.query('SELECT * FROM calendars WHERE owner=$1', [user.uuid])
+
+    return result.rows.map((row: any) => row as Calendar)
+}
