@@ -2,9 +2,9 @@
 
 import Navigation from '@/app/components/calendar/navigation'
 
-import { Day } from '@/app/types/calendar/day'
+import { Day } from '@/app/types/calendar'
 import { useEffect, useState } from 'react'
-import { getDays } from '@/app/actions'
+import { getDays } from '@/app/actions/calendar'
 
 const weekdays = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
 

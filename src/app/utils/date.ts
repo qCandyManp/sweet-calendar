@@ -1,20 +1,18 @@
-"use server"
+import { Day } from '@/app/types/calendar'
 
-import { Day } from '@/app/types/calendar/day'
-
-const getFirstDayOfMonth = (date: Date) => {
+export const getFirstDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), 1)
 }
 
-const getLastDayOfMonth = (date: Date) => {
+export const getLastDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0)
 }
 
-const getNumberOfDaysInMonth = (date: Date) => {
+export const getNumberOfDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 }
 
-const getDayGrid = (date: Date): Day[] => {
+export const getDayGrid = (date: Date): Day[] => {
     const firstDay = getFirstDayOfMonth(date)
     const lastDay = getLastDayOfMonth(date)
     const numberOfDays = getNumberOfDaysInMonth(date)
@@ -42,8 +40,4 @@ const getDayGrid = (date: Date): Day[] => {
     }
 
     return dayGrid
-}
-
-export async function getDays(date: Date = new Date()): Promise<Day[]> {
-    return getDayGrid(date)
 }
