@@ -14,11 +14,11 @@ export default async function Home() {
     const date = new Date()
 
     return (
-        <main className="container flex min-h-screen flex-col items-center p-4 mx-auto">
+        <>
             <h1 className='text-2xl mb-6'>
                 <FaIcon icon={far.faCalendar} /> Calendar
             </h1>
             <Calendar initDate={date} />
-        </main>
+        </>
     );
 }

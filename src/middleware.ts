@@ -1,9 +1,15 @@
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
-    const currentUser = request.cookies.get('currentUser')?.value
+const protectedRoutes = [
+    '/admin/edit'
+]
 
-    if (!currentUser && request.nextUrl.pathname.startsWith('/admin/edit')) {
+export function middleware(request: NextRequest) {
+    if (protectedRoutes.includes(request.nextUrl.pathname)) {
+        const token = request.cookies.get('token')?.value
+
+        console.log('token', token)
+
         return Response.redirect(new URL('/admin/login', request.url))
     }
 }

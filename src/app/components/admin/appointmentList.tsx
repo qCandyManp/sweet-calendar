@@ -11,7 +11,7 @@ import Input from "@/app/components/general/form/input"
 export default function AppointmentList({ initAppointments }: { initAppointments: Appointment[] }) {
     const [appointments, setAppointments] = useState(initAppointments)
 
-    const addAppointment = async (formData: FormData) => {
+    async function addAppointment(formData: FormData) {
         if (!formData.get('title') || !formData.get('date')) {
             return false
         }
