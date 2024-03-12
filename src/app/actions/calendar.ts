@@ -2,15 +2,14 @@
 
 import { Day } from '@/app/types/calendar'
 import { getDayGrid } from '@/app/utils/date'
-import { User } from '@/app/models/user'
-import { Calendar } from '@/app/models/calendar'
+import { Appointment } from '@/app/models/appointment'
 import { getPGClient } from '../utils/db'
 
 export async function getDays(date: Date = new Date()): Promise<Day[]> {
     return getDayGrid(date)
 }
 
-export async function getCalendars(user: User): Promise<Calendar[]> {
+export async function getAppointments(): Promise<Appointment[]> {
 
     const client = getPGClient()
 
@@ -20,13 +19,13 @@ export async function getCalendars(user: User): Promise<Calendar[]> {
         console.error(e)
     }
 
-    // TODO: restrict to user
-    const result = await client.query('SELECT * FROM calendars')
+    const result = await client.query('SELECT * FROM appointments ORDER BY date ASC')
+    await client.end()
 
-    return result.rows.map((row: any) => row as Calendar)
+    return result.rows.map((row: any) => row as Appointment)
 }
 
-export async function createCalendar(user: User, title: string): Promise<Calendar> {
+export async function createAppointment(title: string, date: Date): Promise<Appointment> {
     const client = getPGClient()
 
     try {
@@ -35,12 +34,13 @@ export async function createCalendar(user: User, title: string): Promise<Calenda
         console.error(e)
     }
 
-    const result = await client.query('INSERT INTO calendars (title, owner) VALUES ($1, $2) RETURNING *', [title, user.uuid])
+    const result = await client.query('INSERT INTO appointments (title, date) VALUES ($1, $2) RETURNING *', [title, date])
+    await client.end()
 
-    return result.rows[0] as Calendar
+    return result.rows[0] as Appointment
 }
 
-export async function deleteCalendar(user: User, uuid: string): Promise<Calendar[]> {
+export async function deleteAppointment(uuid: string): Promise<Appointment[]> {
     const client = getPGClient()
 
     try {
@@ -49,8 +49,9 @@ export async function deleteCalendar(user: User, uuid: string): Promise<Calendar
         console.error(e)
     }
 
-    await client.query('DELETE from calendars WHERE uuid=$1', [uuid])
-    const result = await client.query('SELECT * FROM calendars WHERE owner=$1', [user.uuid])
+    await client.query('DELETE from appointments WHERE uuid=$1', [uuid])
+    const result = await client.query('SELECT * FROM appointments ORDER BY date ASC')
+    await client.end()
 
-    return result.rows.map((row: any) => row as Calendar)
+    return result.rows.map((row: any) => row as Appointment)
 }

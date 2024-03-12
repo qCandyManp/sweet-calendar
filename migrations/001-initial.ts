@@ -13,7 +13,7 @@ exports.up = async () => {
     await client.connect();
     await client.query('CREATE EXTENSION IF NOT EXISTS pgcrypto');
     await client.query(`
-        CREATE TABLE users (
+        CREATE TABLE IF NOT EXISTS users (
             uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL
@@ -23,16 +23,9 @@ exports.up = async () => {
         INSERT INTO users (uuid, email, password) VALUES ('189b7141-ee56-4f75-9a5d-b518d271d0c2', 'test@test.de', 'asfasfasfasgerh')
     `);
     await client.query(`
-        CREATE TABLE calendars (
+        CREATE TABLE IF NOT EXISTS appointments (
             uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
-            owner UUID REFERENCES users(uuid)
-        )
-    `);
-    await client.query(`
-        CREATE TABLE appointments (
-            uuid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-            calendar UUID REFERENCES calendars(uuid),
             date TIMESTAMP NOT NULL
         )
     `);
@@ -42,7 +35,6 @@ exports.up = async () => {
 exports.down = async () => {
     await client.connect();
     await client.query('DROP TABLE appointments');
-    await client.query('DROP TABLE calendars');
     await client.query('DROP TABLE users');
     await client.end();
 };
