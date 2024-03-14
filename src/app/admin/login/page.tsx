@@ -27,7 +27,6 @@ export default function Login() {
         }
 
         if (response.token) {
-            console.log(response.token)
             // set cookie for future requests
             document.cookie = `token=${response.token}; path=/;`
 

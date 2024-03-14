@@ -4,7 +4,11 @@ import { User } from '@/app/models/user'
 import { getPGClient } from '@/app/utils/db'
 import { comparePassword, generateToken, hashPassword } from '@/app/utils/auth'
 
-export async function registerUser(email: string, password: string): Promise<{ success?: boolean, error?: string }> {
+export async function registerUser(email: string, password: string, passwordRepeat: string): Promise<{ success?: boolean, error?: string }> {
+    if (password !== passwordRepeat) {
+        return { error: 'Passwords do not match' }
+    }
+
     const client = getPGClient()
     await client.connect()
 
@@ -37,7 +41,7 @@ export async function loginUser(email: string, password: string): Promise<{ toke
         return { error: 'User not released' }
     }
 
-    if (await comparePassword(password, user.password)) {
+    if (!await comparePassword(password, user.password)) {
         return { error: 'Invalid password' }
     }
 
