@@ -20,8 +20,11 @@ exports.up = async () => {
             password VARCHAR(255) NOT NULL
         )
     `);
+    /**
+     * The password is "test"
+     */
     await client.query(`
-        INSERT INTO users (uuid, email, password, verified) VALUES ('189b7141-ee56-4f75-9a5d-b518d271d0c2', 'test@test.de', 'asfasfasfasgerh', TRUE)
+        INSERT INTO users (uuid, email, password, verified) VALUES ('189b7141-ee56-4f75-9a5d-b518d271d0c2', 'test@test.de', '$2a$10$SAPr4qnJ0yFgIWe0IlcQp.o.qLeJ4aoCLz7yuGVrC0mZbp4dxoVii', TRUE)
     `);
     await client.query(`
         CREATE TABLE IF NOT EXISTS appointments (
